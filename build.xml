@@ -5,26 +5,29 @@
         <format property="nowTime" pattern="yyyyMMddhhmmss"/>
     </tstamp>
 
+    <!--加载配置文件-->
+    <property file="build.properties"/>
+
     <!--版本号-->
-    <property name="version" value="v1.0.8" />
+    <property name="version" value="${app.version}" />
     <!--上次构建的版本号-->
-    <property name="last-build-version" value="v1.0.0" />
-    <!--项目根目录 **《修改》**-->
-	<property name="project-root" value="." />
+    <property name="last-build-version" value="${app.lasetVersion}" />
+    <!--项目根目录-->
+	<property name="project-root" value="${basedir}" />
     <!--项目目录-->
     <property name="project-path" value="${project-root}\bin\" />
-    <!--发布目录根目录 **《修改》**-->
-    <property name="out-root" value="${project-root}\dist" />
+    <!--发布目录根目录-->
+    <property name="out-root" value="${project-root}\${app.dist}" />
     <!--发布目录-->
     <property name="out-path" value="${out-root}\${version}" />
     <!--上次发布目录-->
     <property name="last-out-path" value="${out-root}\${last-build-version}" />
     <!--增量包发布目录-->
     <property name="delta-path" value="${out-root}\${version}_delta" />
-    <!--assets目录 **《修改》**-->
-    <property name="assets-path" value="E:\hc\hc10\h10_assets\trunk\GameAssets-PPXY-BT-ST\" />
+    <!--assets目录-->
+    <property name="assets-path" value="${assets.dir}" />
     <!--MD5值-->
-    <property name="zip-name" value="update_client_xyry_${version}_${nowTime}.zip" />
+    <property name="zip-name" value="client_update_xyry_${version}_${nowTime}.zip" />
 
     <!--清理目录-->
     <target name="clean">
@@ -33,11 +36,10 @@
 
     <!--生产版本目录-->
     <target name="delpoy-web-game">
-        <!--cdn资源目录-->
-	<copy todir="${out-path}\assets">
+        <copy todir="${out-path}\assets">
             <fileset dir="${assets-path}" />
         </copy>
- 	<!--资源目录-->
+
         <copy todir="${out-path}\res">
             <fileset dir="${project-path}\res\" />
         </copy>
@@ -86,8 +88,7 @@
 
     <!--出zip包-->
     <target name="zip">
-        <zip destfile="${out-path}\${zip-name}" basedir="${out-path}"/>
-        <move file="${out-path}\${zip-name}" todir="${delta-path}" />
+        <zip destfile="${delta-path}\${zip-name}" basedir="${delta-path}"/>
     </target>
 
     <!--zip包md5值-->
@@ -97,19 +98,15 @@
 
     <!--上传压缩包指服务器ssh-->
     <target name="upload">
-        <property name="ssh.hostname" value="192.168.1.1"/> <!--服务器地址 需要修改-->
-        <property name="ssh.port" value="21"/> <!--服务器ftp端口 需要修改-->
-        <property name="ssh.usename" value="root"/> <!--服务器登录用户名 需要修改-->
-        <property name="ssh.passwd" value="root"/> <!--服务器密码 需要修改-->
-      <taskdef name="autoUpload" classname="FtpUplod" classpath="LayaBuild.jar"/>
-        <autoUpload
-                hostname="${ssh.hostname}"
-                port="${ssh.port}"
-                usename="${ssh.usename}"
-                passwd="${ssh.passwd}"
-                filename="${zip-name}"
-                fileabsolutepath="${delta-path}\${zip-name}"
-                remotedir="/update_client"/>
+<!--      <taskdef name="autoUpload" classname="FtpUplod" classpath="LayaBuild.jar"/>-->
+<!--        <autoUpload-->
+<!--                hostname="${ssh.hostname}"-->
+<!--                port="${ssh.port}"-->
+<!--                usename="${ssh.usename}"-->
+<!--                passwd="${ssh.passwd}"-->
+<!--                filename="${zip-name}"-->
+<!--                fileabsolutepath="${delta-path}\${zip-name}"-->
+<!--                remotedir="/${ssh.remotedir}"/>-->
     </target>
 
     <target name="start" depends="clean, delpoy-web-game, delta-packge, layadcc, zip, md5, upload">
