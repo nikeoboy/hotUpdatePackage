@@ -10,11 +10,11 @@
     <!--上次构建的版本号-->
     <property name="last-build-version" value="v1.0.0" />
     <!--项目根目录 **《修改》**-->
-	<property name="project-root" value="E:\hc\hc10\h10_client\tags\GameClient-PPXY-BT-ST\v1.0.2" />
+	<property name="project-root" value="." />
     <!--项目目录-->
     <property name="project-path" value="${project-root}\bin\" />
     <!--发布目录根目录 **《修改》**-->
-    <property name="out-root" value="${project-root}\dist_nikeo2" />
+    <property name="out-root" value="${project-root}\dist" />
     <!--发布目录-->
     <property name="out-path" value="${out-root}\${version}" />
     <!--上次发布目录-->
@@ -33,10 +33,11 @@
 
     <!--生产版本目录-->
     <target name="delpoy-web-game">
-        <copy todir="${out-path}\assets">
+        <!--cdn资源目录-->
+	<copy todir="${out-path}\assets">
             <fileset dir="${assets-path}" />
         </copy>
-
+ 	<!--资源目录-->
         <copy todir="${out-path}\res">
             <fileset dir="${project-path}\res\" />
         </copy>
@@ -94,10 +95,21 @@
         <checksum file="${delta-path}\${zip-name}" property="zipMD5"/>
     </target>
 
-    <!--上传压缩包指服务器-->
+    <!--上传压缩包指服务器ssh-->
     <target name="upload">
-<!--      <taskdef name="autoUpload" classname="FtpUplod" classpath="LayaBuild.jar"/>-->
-<!--        <autoUpload filename="${zip-name}" fileabsolutepath="${delta-path}\${zip-name}" remotedir="/update_client"/>-->
+        <property name="ssh.hostname" value="192.168.1.1"/> <!--服务器地址 需要修改-->
+        <property name="ssh.port" value="21"/> <!--服务器ftp端口 需要修改-->
+        <property name="ssh.usename" value="root"/> <!--服务器登录用户名 需要修改-->
+        <property name="ssh.passwd" value="root"/> <!--服务器密码 需要修改-->
+      <taskdef name="autoUpload" classname="FtpUplod" classpath="LayaBuild.jar"/>
+        <autoUpload
+                hostname="${ssh.hostname}"
+                port="${ssh.port}"
+                usename="${ssh.usename}"
+                passwd="${ssh.passwd}"
+                filename="${zip-name}"
+                fileabsolutepath="${delta-path}\${zip-name}"
+                remotedir="/update_client"/>
     </target>
 
     <target name="start" depends="clean, delpoy-web-game, delta-packge, layadcc, zip, md5, upload">
