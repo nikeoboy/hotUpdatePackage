@@ -1,0 +1,5 @@
+项目发布说明
+1.项目打包配置
+    File—>Project Structure—>Project Settings—>Arifacts，按需求配置，不需要将第三方库文件打包到主包中
+2.出包
+    Build—>Build Arifacts—>Build
