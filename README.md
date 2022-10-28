@@ -4,9 +4,12 @@
     本工具为自定义jar任务类给build.xml调用达到自动化构建，满足热更新打包需求
     
 ## 优点  
-    1.跨平台，支持windows、mac、linux等所有平台  
+    ant 是Apache软件基金会JAKARTA目录中的一个子项目，它有以下的优点：
+    1.跨平台：Ant是纯java语音编写的，所以具有很好的跨平台性  
     2.减少操作失误率、节省工作流程
-    3.自动化方便快捷
+    3.操作简单方便快捷：Ant是由一个内置任务和可选任务组成的，用ant任务就像是在dos中写命令行一样。Ant运行时需要一个XML文件(构建文件)。 Ant通过调用target树，就可以执行各种task。每个task实现了特定接口对象
+    4.维护简单、可读性好、集成简单：由于Ant构建文件是XML格式的文件，所以很容易维护和书写，而且结构很清晰。Ant可以集成到开发环境中。
+    由于Ant的跨平台性和操作简单的特点，它很容易集成到一些开发环境中去
     
 ### 相关库文件
 - commons.net-1.4.1.jar ftp连接第三方库  
@@ -22,6 +25,12 @@
     > 文件md5差异对比  
     > 文件拷贝  
     > ftp上传  
+
+## 开发环境
+    system：Windows
+    JDK：1.8+
+    IDE：Intellij Idea
+    ant：1.10.6
 
 ## 环境部署  
     1.下载`apache-ant`软件, 点击下载：https://dlcdn.apache.org//ant/binaries/apache-ant-1.10.12-bin.zip  
