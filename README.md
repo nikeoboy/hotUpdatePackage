@@ -1,3 +1,9 @@
+# 热更新出包工具
+## 介绍    
+    ant是一个将软件编译、测试、部署等步骤联系在一起加以自动化的一个工具，大多用于Java环境中的软件开发。在实际软件开发中，有很多地方可以用到ant。
+    本工具为自定义jar任务类给build.xml调用达到自动化构建，满足热更新打包需求
+    
+### 库文件
 - commons.net-1.4.1.jar ftp连接第三方库  
     常用类：`FTPClient` `FTPFile`
 - commons-codec-1.10 md5生成库  
@@ -12,7 +18,7 @@
     > 文件拷贝  
     > ftp上传  
 
-- 📫 环境部署  
+## 环境部署  
     1.下载`apache-ant`软件, 点击下载：https://dlcdn.apache.org//ant/binaries/apache-ant-1.10.12-bin.zip  
     2.将ant目录下的`bin`目录配在系统环境变量`path`中  
     2.打开cmd窗口，输入命令 `ant -version`，如出现版本号则ant配置成功  
@@ -20,16 +26,77 @@
     4.将`build.xml`复制到自己项目根目录下，修改文件中注明需要修改的位置  
     5.打开执行`ant`命令等待操作成功日志
 
-- 介绍    
-    采用ant软件 自定义jar任务类给build.xml调用达到自动化构建，
    
-- 优点  
+## 优点  
     1.跨平台，支持windows、mac、linux等所有平台  
     2.减少操作失误率、节省工作流程
     3.自动化方便快捷
 
-- 补充
-    需要自行补充apache-ant 基础配置语法
+## 补充  
+    需要自行补充Apache-Ant 基础配置语法  主要描述一下，Ant中各个属性作用，现在最常用的属性有：delete,target,mkdir,copy,jar,project
+
+        1.<project>
+             此属性是构建文件的根属性。它可以有多个内在属性，其各个属性的含义分别如下：
+             default表示默认的运行目标，这个属性是必须的。
+             basedir表示项目的基准目录。
+             name表示项目名。
+             description表示项目的描述。
     
-- 相关网址
-    apache-ant官网：https://ant.apache.org/
+        2.<target>
+            .name表示目标名称，这个属性是必须的。
+            .depends表示依赖的目标。
+            if表示仅当属性设置时才执行。
+            unless表示当属性没有设置时才执行。
+            description表示项目的描述。
+            Ant的depends属性指定了target的执行顺序。Ant会依照depends属性中target出现顺序依次执行每个target。在执行之前，首先需要执行它所依赖的target。
+    
+        3.<mkdir>
+            用于创建一个目录，它有一个属性dir用来指定所创建的目录名。
+    
+        4.<jar>
+            该属性用来生成一个JAR文件，其属性如下。
+            destfile表示要生成的JAR文件名。
+            basedir表示被归档的文件名。
+            includes表示需要归档的文件模式。
+            exchudes表示被排除的文件模式。
+
+        5.<javac>
+            该属性用于编译一个或一组java文件，其属性如下。
+            srcdir表示源程序的目录。
+            destdir表示class文件的输出目录。
+            include表示被编译的文件的模式。
+            excludes表示被排除的文件的模式。
+            classpath表示所使用的类路径。
+            debug表示包含的调试信息。
+            optimize表示是否使用优化。
+            verbose 表示提供详细的输出信息。
+            fileonerror表示当碰到错误就自动停止。
+
+        6.<java>
+            该属性用来执行编译生成的.class文件，其属性如下。
+            classname 表示将执行的类名。
+            jar表示包含该类的JAR文件名。
+            classpath所表示用到的类路径。
+            fork表示在一个新的虚拟机中运行该类。
+            failonerror表示当出现错误时自动停止。
+            output 表示输出文件。
+            append表示追加或者覆盖默认文件。
+
+        7.<delete>
+            该属性用于删除一个文件或一组文件，其属性如下。
+            file表示要删除的文件。
+            dir表示要删除的目录。
+            includeEmptyDirs 表示指定是否要删除空目录，默认值是删除。
+            failonerror 表示指定当碰到错误是否停止，默认值是自动停止。
+
+        8.<copy>
+            该属性用于文件或文件集的拷贝，其属性如下。
+            file 表示源文件。
+            tofile 表示目标文件。
+            todir 表示目标目录。
+            overwrite 表示指定是否覆盖目标文件，默认值是不覆盖。
+            includeEmptyDirs 表示制定是否拷贝空目录，默认值为拷贝。
+            failonerror 表示指定如目标没有发现是否自动停止，默认值是停止。
+    
+## 相关网址
+    Apache-Ant官网 https://ant.apache.org/
